@@ -19,11 +19,11 @@ button {
     
     border: none;
     outline: none;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     
-    background-size: 30px;
+    background-size: 28px;
     background-position: center;
     background-repeat: no-repeat;
     
@@ -33,9 +33,6 @@ button {
 }
 button:focus {
     outline: none;
-}
-button:hover {
-    background-color: rgba(0,0,0,0.2);
 }
 
 .close {
@@ -47,8 +44,8 @@ button:hover {
     background-color: red;
 }
 
-.capture {
-    background-image: url(../icons/ic_camera_black_24px.svg);
+.desktop {
+    background-image: url(../icons/ic_desktop_mac_black_24px.svg);
 }
 
 .sound {
@@ -56,6 +53,9 @@ button:hover {
 }
 
 .mirror {
+    background-image: url('../icons/ic_videocam_off_black_24px.svg');
+}
+.mirror.on {
     background-image: url(../icons/ic_videocam_black_24px.svg);
 }
 
