@@ -4,20 +4,26 @@
   "description": "Capture screencasts and video using WebRTC",
   "version": "0.0.1",
   "author": "Kiril Vatev",
-  "minimum_chrome_version": "34",
+  "minimum_chrome_version": "35",
   "icons": {
-    "16": "assets/icon_16.png",
-    "128": "assets/icon_128.png"
+    "128": "assets/128.png"
   },
   "app": {
     "background": {
-      "scripts": ["background.js"]
+      "scripts": [ "background.js" ]
     }
   },
   "permissions": [
-    {"fileSystem": ["write"]},
+    { 
+        "fileSystem": [
+            "write"
+        ]
+    },
     "audioCapture",
+    "desktopCapture",
     "videoCapture",
-    "desktopCapture"
+    "alwaysOnTopWindows",
+    "app.window.alpha",
+    "app.window.shape"
   ]
 }
