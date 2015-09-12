@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Preview</title>
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            
+            -webkit-app-region: drag;
+        }
+        
+        video, .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        video { z-index: 2; }
+        
+        .container {
+            background-image: url(../icons/ic_camera_black_24px.svg);
+            background-size: 50px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .container::before {
+            content: "No video stream to preview.";
+            position: absolute;
+            bottom: 25%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            transform: translateY(50%);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <video id="js-video" autoplay></video>    
+    </div>
+    <script src="preview.js"></script>
+</body>
+</html>
