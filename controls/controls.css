@@ -1,0 +1,69 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    
+    position: relative;
+    background: white;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+button {
+    display: inline-block;
+    float: left;
+    vertical-align: top;
+    
+    border: none;
+    outline: none;
+    width: 44px;
+    height: 44px;
+    cursor: pointer;
+    
+    background-size: 30px;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    background-color: rgba(0,0,0,0.1);
+    
+    transition: background-color 800ms ease;
+}
+button:focus {
+    outline: none;
+}
+button:hover {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.close {
+    background-image: url(../icons/ic_close_black_24px.svg);
+    background-color: white;
+}
+
+.close:hover {
+    background-color: red;
+}
+
+.capture {
+    background-image: url(../icons/ic_camera_black_24px.svg);
+}
+
+.sound {
+    background-image: url(../icons/ic_mic_black_24px.svg);
+}
+
+.mirror {
+    background-image: url(../icons/ic_videocam_black_24px.svg);
+}
+
+.settings {
+    background-image: url(../icons/ic_more_vert_black_24px.svg);
+}
+
+.frame-drag {
+    background: yellow;
+    -webkit-app-region: drag;
+}
