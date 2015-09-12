@@ -6,4 +6,8 @@ onload = function() {
     // set up close button
     var close = $('#js-close');
     close.onclick = window.close.bind(window);
+    
+    if (window.initControls) {
+        window.initControls(window);
+    }
 };
