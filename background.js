@@ -15,11 +15,23 @@ $.once = function once(elem, eventName, func, context) {
     elem.addEventListener(eventName, func);
 };
 
+function noop() {}
+
 var refs = {};
 
 // create the controls window when the app launches
 chrome.app.runtime.onLaunched.addListener(function () {
-    createControlsWindow();
+    createControlsWindow(function(appWindow) {
+        // register onClose events to clean up
+        appWindow.onClosed.addListener(function() {
+            var allWindows = chrome.app.window.getAll();
+            allWindows.forEach((appWin) => {
+                appWin.contentWindow.close();
+            });
+            
+            destroyDesktopStream();
+        });
+    });
 });
 
 function createWindow(url, id, width, height, description, callback) {
@@ -70,9 +82,10 @@ function createWindow(url, id, width, height, description, callback) {
     });
 }
 
-function createControlsWindow() {
+function createControlsWindow(done) {
     var width = 240;
     var height = 40;
+    done = done || noop;
     
     createWindow('controls/controls.html', 'controls', {
         alwaysOnTop: true,
@@ -88,6 +101,7 @@ function createControlsWindow() {
     }, function(appWindow) {
         refs.controlsWindow = appWindow;
         appWindow.contentWindow.initControls = initControls;
+        done(appWindow);
     });
 }
 
@@ -127,7 +141,8 @@ function initControls(win) {
 
 function initDesktopCapture() {
     refs.videoRequestId = chrome.desktopCapture.chooseDesktopMedia(
-        ['screen', 'window'],
+        // only share the whole screen, not individual windows for now
+        ['screen'],//, 'window'],
         function success(id) {
             getDesktopStream(id);        
         }
@@ -153,13 +168,29 @@ function getDesktopStream(mediaId) {
 
 function initDesktopStream(stream) {
     stream.addEventListener('ended', function() {
-        console.log('desktop stream ended');
-        refs.desktopStream = undefined;
+        destroyDesktopStream();
     });
     
     if (refs.previewWindow && refs.previewWindow.contentWindow) {
         // we have an already open preview window, so initialize the preview
         initPreview(refs.previewWindow.contentWindow);
+    }
+}
+
+function destroyDesktopStream() {
+    if (refs.desktopStream && refs.desktopStream.active) {
+        // tracks have to be stopped one at a time
+        // MediaStream.stop is deprecated in M47
+        refs.desktopStream.getTracks().forEach((track) => {
+            track.stop();
+        });
+        
+        refs.desktopStream = undefined;
+    }
+    
+    if (refs.desktopStreamUrl) {
+        window.URL.revokeObjectURL(refs.desktopStreamUrl);
+        refs.desktopStreamUrl = undefined;
     }
 }
 
