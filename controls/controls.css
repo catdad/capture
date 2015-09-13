@@ -5,7 +5,9 @@ html, body {
     height: 100%;
     
     position: relative;
-    background: white;
+    background-color: rgba(0,0,0,0.05);
+    
+    transition: height 1000ms ease;
 }
 
 body * {
@@ -23,13 +25,10 @@ button {
     height: 40px;
     cursor: pointer;
     
+    background-color: transparent;
     background-size: 28px;
     background-position: center;
     background-repeat: no-repeat;
-    
-    background-color: rgba(0,0,0,0.1);
-    
-    transition: background-color 800ms ease;
 }
 button:focus {
     outline: none;
@@ -38,10 +37,11 @@ button:focus {
 .close {
     background-image: url(../icons/ic_close_black_24px.svg);
     background-color: white;
+    transition: background-color 800ms ease;
 }
 
 .close:hover {
-    background-color: red;
+    background-color: #ff7676;
 }
 
 .desktop {
@@ -59,8 +59,12 @@ button:focus {
     background-image: url(../icons/ic_videocam_black_24px.svg);
 }
 
-.settings {
+.menu {
     background-image: url(../icons/ic_more_vert_black_24px.svg);
+    transition: transform 400ms ease;
+}
+.menu.on {
+    transform: rotate(90deg);
 }
 
 .frame-drag {
