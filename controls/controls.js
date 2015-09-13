@@ -35,9 +35,11 @@ onload = function() {
         if (this.classList.contains('on')) {
             resizeWindow(origWidth, origHeight);
             this.classList.remove('on');
+            $('body').classList.remove('extended');
         } else {
             resizeWindow(origWidth, origHeight + 300);
             this.classList.add('on');
+            $('body').classList.add('extended');
         }
     }
 };

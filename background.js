@@ -66,6 +66,17 @@ function initControls(win) {
             this.classList.remove('on');
         }
     };
+    
+    $('#js-webcam', root).onclick = function() {
+        if (refs.webcamWindow === undefined) {
+            createWebcamWindow();
+            this.classList.add('on');
+        } else {
+            refs.webcamWindow.contentWindow.close();
+            refs.webcamWindow = undefined;
+            this.classList.remove('on');
+        }
+    };
 }
 
 function initDesktopCapture() {
@@ -177,4 +188,29 @@ function initPreview(win) {
         defaultBounds.setMaximumSize((newWidth * 2) | 0, (newHeight * 2) | 0);
         defaultBounds.setSize(newWidth, newHeight);
     });
+}
+
+function createWebcamWindow() {
+    var width = 400;
+    var height = 266;
+    
+    chrome.app.window.create(
+        "webcam/webcam.html", {
+            id: "webcam",
+            frame: "none",
+            innerBounds: {
+                width: width,
+                height: height,
+                minWidth: width,
+                minHeight: height,
+                maxWidth: width,
+                maxHeight: height
+            },
+            alwaysOnTop: true,
+            resizable: false
+        }, function(appWindow) {
+            refs.webcamWindow = appWindow;
+            appWindow.setAlwaysOnTop(true);
+        }
+    );
 }

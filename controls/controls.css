@@ -25,6 +25,8 @@ button {
     height: 40px;
     cursor: pointer;
     
+    color: transparent;
+    
     background-color: transparent;
     background-size: 28px;
     background-position: center;
@@ -34,7 +36,28 @@ button:focus {
     outline: none;
 }
 
+body.extended .toggle,
+body.extended .hidden {
+    display: block;
+    width: 100%;
+    background-position-x: 15px;
+    color: inherit;
+    text-align: left;
+    text-indent: 54px;
+}
+body.extended .frame-drag {
+    margin-left: -80px;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
 .close {
+    position: absolute;
+    top: 0;
+    right: 0;
     background-image: url(../icons/ic_close_black_24px.svg);
     background-color: white;
     transition: background-color 800ms ease;
@@ -42,6 +65,18 @@ button:focus {
 
 .close:hover {
     background-color: #ff7676;
+}
+
+.menu {
+    position: absolute;
+    top: 0;
+    right: 40px;
+    
+    background-image: url(../icons/ic_more_vert_black_24px.svg);
+    transition: transform 400ms ease;
+}
+.menu.on {
+    transform: rotate(90deg);
 }
 
 .desktop {
@@ -59,12 +94,8 @@ button:focus {
     background-image: url(../icons/ic_videocam_black_24px.svg);
 }
 
-.menu {
-    background-image: url(../icons/ic_more_vert_black_24px.svg);
-    transition: transform 400ms ease;
-}
-.menu.on {
-    transform: rotate(90deg);
+.webcam {
+    background-image: url(../icons/ic_camera_black_24px.svg);
 }
 
 .frame-drag {

@@ -7,11 +7,19 @@
 </head>
 <body>
     <button class="frame-drag"></button>
-    <button id="js-desktop" class="desktop toggle"></button>
-    <button id="js-sound" class="sound toggle"></button>
-    <button id="js-mirror" class="mirror toggle"></button>
+    
+    <!--buttons that appear in the small bar-->
+    <button id="js-desktop" class="desktop toggle">Select desktop</button>
+    <button id="js-sound" class="sound toggle">Mute sound</button>
+    <button id="js-webcam" class="webcam toggle">Show webcam video</button>
+    
+    <!--extra buttons that appear when expanded-->
+    <button id="js-mirror" class="mirror hidden toggle">Show capture preview</button>
+    
+    <!--special buttons that always appear at the top-->
     <button id="js-menu" class="menu"></button>
     <button id="js-close" class="close"></button>
+    
     <script src="controls.js"></script>
 </body>
 </html>
