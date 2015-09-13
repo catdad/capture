@@ -186,6 +186,7 @@ function destroyDesktopStream() {
         });
         
         refs.desktopStream = undefined;
+        refs.videoRequestId = undefined;
     }
     
     if (refs.desktopStreamUrl) {
