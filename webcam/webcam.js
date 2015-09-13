@@ -1,4 +1,5 @@
 /* jshint browser: true, devel: true */
+/* global chrome */
 
 onload = function() {
     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
@@ -23,5 +24,22 @@ onload = function() {
             window.URL.revokeObjectURL(streamUrl);
             video.src = '';
         });
+        
+        video.addEventListener('loadeddata', function() {
+            correctSize(video);
+        });
+    }
+    
+    function correctSize(video) {
+        // size the window to match the size of the video feed
+        var defaultBounds = chrome.app.window.current().innerBounds;
+        var videoWidth = video.videoWidth;
+        var videoHeight = video.videoHeight;
+
+        // Chrome demands that these numbers be integers
+        var newHeight = (videoHeight * defaultBounds.width / videoWidth) | 0;
+        var newWidth = defaultBounds.width | 0;
+
+        defaultBounds.setSize(newWidth, newHeight);
     }
 };

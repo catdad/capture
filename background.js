@@ -19,31 +19,77 @@ var refs = {};
 
 // create the controls window when the app launches
 chrome.app.runtime.onLaunched.addListener(function () {
+    createControlsWindow();
+});
+
+function createWindow(url, id, width, height, description, callback) {
+    var args = Array.prototype.slice.call(arguments);
+    
+    var defaultWidth = 240;
+    var defaultHeight = 40;
+    
+    // required params
+    url = args.shift();
+    id = args.shift();
+    callback = args.pop();
+    
+    description = description || {};
+    
+    if (args.length) {
+        // we can have up to 3 optional parameters
+        if (typeof args[0] === 'object') {
+            description = Object.assign(args[0], description);
+        } else if (typeof args[0] === 'number') {
+            width = args[0];
+        }
+        
+        if (typeof args[1] === 'object') {
+            description = Object.assign(args[1], description);
+        } else if (typeof args[1] === 'number') {
+            height = args[1];
+        }
+        
+        if (typeof args[2] === 'object') {
+            description = Object.assign(args[2], description);
+        }
+    }
+    
+    var defaultDescription = {
+        id: id,
+        frame: 'none',
+        innerBounds: {
+            width: width || defaultWidth,
+            height: height || defaultHeight
+        }
+    };
+    
+    var fullDescription = Object.assign(defaultDescription, description);
+    
+    chrome.app.window.create(url, fullDescription, function(appWindow) {
+        callback(appWindow);
+    });
+}
+
+function createControlsWindow() {
     var width = 240;
     var height = 40;
     
-    chrome.app.window.create(
-        "controls/controls.html", {
-            id: "controls",
-            frame: "none",
-            innerBounds: {
-                width: width,
-                height: height,
-                minWidth: width,
-                minHeight: height,
-                maxWidth: width,
-                maxHeight: height
-            },
-            resizable: false,
-            alwaysOnTop: true,
-//            transparentBackground: true
-        },
-        function onCreated(appWindow) {
-            refs.controlsWindow = appWindow;
-            appWindow.contentWindow.initControls = initControls;
+    createWindow('controls/controls.html', 'controls', {
+        alwaysOnTop: true,
+        resizable: false,
+        innerBounds: {
+            width: width,
+            height: height,
+            minWidth: width,
+            minHeight: height,
+            maxWidth: width,
+            maxHeight: height
         }
-    );
-});
+    }, function(appWindow) {
+        refs.controlsWindow = appWindow;
+        appWindow.contentWindow.initControls = initControls;
+    });
+}
 
 function initControls(win) {
     var root = win.document;
@@ -121,24 +167,18 @@ function createPreviewWindow() {
     var width = 400;
     var height = 266;
     
-    chrome.app.window.create(
-        "preview/preview.html", {
-            id: "preview",
-            frame: "none",
-            innerBounds: {
-                width: width,
-                height: height,
-                minWidth: width,
-                minHeight: height,
-                maxWidth: width,
-                maxHeight: height
-            },
-            resizable: false
-        }, function(appWindow) {
-            refs.previewWindow = appWindow;
-            appWindow.contentWindow.initPreview = initPreview;
+    createWindow('preview/preview.html', 'preview', width, height, {
+        resizable: false,
+        innerBounds: {
+            minWidth: width,
+            minHeight: height,
+            maxWidth: width,
+            maxHeight: height
         }
-    );
+    }, function(appWindow) {
+        refs.previewWindow = appWindow;
+        appWindow.contentWindow.initPreview = initPreview;
+    });
 }
 
 function initPreview(win) {
@@ -194,23 +234,10 @@ function createWebcamWindow() {
     var width = 400;
     var height = 266;
     
-    chrome.app.window.create(
-        "webcam/webcam.html", {
-            id: "webcam",
-            frame: "none",
-            innerBounds: {
-                width: width,
-                height: height,
-                minWidth: width,
-                minHeight: height,
-                maxWidth: width,
-                maxHeight: height
-            },
-            alwaysOnTop: true,
-            resizable: false
-        }, function(appWindow) {
-            refs.webcamWindow = appWindow;
-            appWindow.setAlwaysOnTop(true);
-        }
-    );
+    createWindow('webcam/webcam.html', 'webcam', width, height, {
+        alwaysOnTop: true
+    }, function(appWindow) {
+        refs.webcamWindow = appWindow;
+        appWindow.setAlwaysOnTop(true);
+    });
 }
