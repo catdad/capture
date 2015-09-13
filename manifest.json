@@ -2,7 +2,8 @@
   "manifest_version": 2,
   "name": "Capture",
   "description": "Capture screencasts and video using WebRTC",
-  "version": "0.0.1",
+  "version": "1.0.0.0",
+  "version_name": "total preview 1",
   "author": "Kiril Vatev",
   "minimum_chrome_version": "42.0.0.0",
   "icons": {
