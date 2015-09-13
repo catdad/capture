@@ -6,7 +6,7 @@ onload = function() {
     getUserMedia = getUserMedia.bind(navigator);
     
     getUserMedia({
-        audio: true,
+        audio: false,
         video: true
     }, function success(stream) {
         initStream(stream);
